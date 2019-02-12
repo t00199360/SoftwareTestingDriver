@@ -1,7 +1,10 @@
+import org.junit.ComparisonFailure;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.Timeout;
 import org.junit.runners.model.TestTimedOutException;
+
+import java.util.concurrent.TimeoutException;
 
 import static org.junit.Assert.*;
 
@@ -18,7 +21,7 @@ public class DriverTest {
         assertEquals("jeff", jeff.getDriverName());
     }
 
-    @Test   //testing name which should fail
+    @Test  (expected=ComparisonFailure.class) //testing name which should fail but exception expected
     public void testDriverNameFail()
     {
         assertEquals("larry", jeff.getDriverName());
@@ -30,14 +33,14 @@ public class DriverTest {
         assertEquals(141,jeff.getDriverNum());
     }
 
-    @Test  (expected=IllegalArgumentException.class)     //testing driver number which should produce a fail as its below 100
+    @Test  (expected=IllegalArgumentException.class)     //testing driver number which should produce a fail as its below 100 but exception expected
     public void testDriverNumberFail()
     {
         Driver larry = new Driver("larry",57);
         assertEquals(57,larry.getDriverNum());
     }
 
-    @Test       //testing driver number which should produce a fail it wont match the expected result
+    @Test   (expected = AssertionError.class)                  //testing driver number which should produce a fail, it wont match the expected result
     public void testDriverNumberFail2()
     {
         assertEquals(527,jeff.getDriverNum());
@@ -50,7 +53,7 @@ public class DriverTest {
     }
 
     @Test
-    public void waitTillTested()
+    public void waitTillTested()                //is supposed to error
     {
         jeff.waitTillbanned();
     }
